@@ -1,0 +1,144 @@
+<div class="header-top">
+  <div class="container-fluid">
+        <div class="pull-left">
+            <h1>Movie Database</h1>
+        </div>
+
+        <div class="pull-right">
+            <ul>
+              <li><%= link_to "Home",root_path %></li>
+              <li><a href="">Movies</a></li>
+              <li><a href="">Reviews</a></li>
+              <li><a href="">About</a></li>
+            </ul>
+        </div>
+        <div class="clearfix">
+          
+        </div>
+  </div>
+</div> <!-- header-top-->
+
+
+<div class="movie-detail">
+    <div class="container-fluid">         
+      <div class="row">
+          <div class="col-sm-9 custom-tabs">
+            <ul class="nav nav-tabs">
+              <li class="sort-by">Sort By:</li>
+              <li class="<%='active' if @sort == 'title' %>"><a href="/?sort=title">Title</a></li>
+              <li class="<%='active' if @sort == 'date' %>"><a href="/?sort=date">Release Date</a></li>
+              <li class="<%='active' if @sort == 'genre' %>"><a href="/?sort=genre">Genre</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content mt30">
+              <div class="tab-pane fade active in" id="infinite_movies_listing" data-id="<%= "#{@next_index}" %>">
+              	<%= render :partial => "/home/infinite_movies_listing", :locals => {:movies=>@movies}  %>
+              </div><!-- tab1 -->
+            </div>
+          </div> <!--col-9 -->
+
+          <div class="col-sm-3">
+            <div class="review-box">
+                    <h3>Recent Reviews</h3>  
+                    
+                    <%= render "/home/recent_reviews" %>
+
+										<%= render "/home/all_reviews" %>                    
+            </div>
+          </div>
+      </div> <!-- row -->
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Rate it</h4>
+      </div>
+      <div class="modal-body">
+      	<span class="success-message-box hide">Thank you for ratings, its updated.</span>
+        <input type="hidden" name="" id="movie_id">
+        <input type="hidden" name="" id="movie_name">
+
+				<div class="stars">
+				  <input class="star star-5 star_radio" id="star-5-radio" type="radio" name="model_rating" value=5 />
+				  <label class="star star-5 rating_stars" for="star-5-radio" id="star-5" ></label>
+				  <input class="star star-4 star_radio" id="star-4-radio" type="radio" name="model_rating" value=4 />
+				  <label class="star star-4 rating_stars" for="star-4-radio" id="star-4"></label>
+				  <input class="star star-3 star_radio" id="star-3-radio" type="radio" name="model_rating" value=3 />
+				  <label class="star star-3 rating_stars" for="star-3-radio" id="star-3"></label>
+				  <input class="star star-2 star_radio" id="star-2-radio" type="radio" name="model_rating" value=2 />
+				  <label class="star star-2 rating_stars" for="star-2-radio" id="star-2"></label>
+				  <input class="star star-1 star_radio" id="star-1-radio" type="radio" name="model_rating" value=1 />
+				  <label class="star star-1 rating_stars" for="star-1-radio" id="star-1"></label>
+				</div>
+
+				<div>
+					<label class="control-label"> Comment: </label>
+					<textarea name="comment" id="comment" class="form-control" required="true"></textarea>
+				</div>
+				
+      </div>
+      
+      <div class="modal-footer">
+      	<input type="submit" class="orange-buttons btn-submit-rating btn btn-default btn-raised btn-blue" value="Submit" />
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="successModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      <h4 class="modal-title">Reviewed</h4>
+	    </div>
+
+	    <div class="modal-body">
+	    	Thank you for reviewing
+	    </div>
+
+	    <div class="modal-footer">
+	    	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  	  </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    var scrollLoad = true;
+    var infinte_movies_listing = $('#infinite_movies_listing').length;
+    $(window).scroll(function() {
+      if (scrollLoad && infinte_movies_listing > 0 && $(window).scrollTop() >= $(document).height() - $(window).height() - 600) {
+        var next_page = $('#infinite_movies_listing').attr("data-id");
+        scrollLoad = false;
+        url = "/?next_page="+next_page;
+        $.ajax({
+          type: 'GET',
+          url: url
+        }).done(function ( data ) {
+          scrollLoad = true;
+        });
+      }
+    });
+  });
+
+  $("*#CallCenterLead_popup").click( function()
+    {
+      $('#movie_id').val($(this).data("engagement-party-id"));
+      $('#movie_name').val($(this).data("engagement-party-name"));
+    }
+  );
+</script>

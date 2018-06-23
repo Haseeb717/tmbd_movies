@@ -6,14 +6,17 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+2.3.1
 
 * System dependencies
-
-* Configuration
+Mysql
 
 * Database creation
+rake db:create
 
 * Database initialization
+rake db:migrate
+rake db:seed
 
 * How to run the test suite
 

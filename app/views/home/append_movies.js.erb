@@ -1,0 +1,4 @@
+<% if @movies.present? %>
+	$('#infinite_movies_listing').append("<%= j render(:partial => 'home/infinite_movies_listing', :locals => {:movies => @movies}) %>");
+	$('#infinite_movies_listing').attr("data-id", "<%= @next_index %>");
+<% end %>

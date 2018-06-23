@@ -1,0 +1,20 @@
+<% Review.group(:movie_id).last(4).each do |review| %>
+  <div class="pull-left">
+    <p><%= review.movie_name %></p>
+  </div>
+  <div class="pull-right">
+    <p>
+      <% average_rating = average_rating(review.movie_id) %>
+      <i class="fa fa-star <%='star-fill' if average_rating >= 1 %> "></i>
+      <i class="fa fa-star <%='star-fill' if average_rating >= 2 %> "></i>
+      <i class="fa fa-star <%='star-fill' if average_rating >= 3 %> "></i>
+      <i class="fa fa-star <%='star-fill' if average_rating >= 4 %> "></i>
+      <i class="fa fa-star <%='star-fill' if average_rating == 5 %> "></i>
+    </p>
+  </div>
+  <div class="clearfix"></div>
+<% end %>
+
+<br />
+<p class="pull-right"><a href=""><u><strong>View All Movies</strong></u></a></p>
+<div class="clearfix"></div>

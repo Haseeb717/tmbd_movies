@@ -1,0 +1,57 @@
+<% movies.each do |movie| %>
+	<div class="Box-ShowItem">
+	  <div class="media">
+	    <div class="media-left">
+	      <a href="#">
+	      	<% if movie.poster_path.present? %>
+	      		<%= image_tag "http://image.tmdb.org/t/p/w92/#{movie.poster_path}",:class=>"media-object width100perc" %>
+	      	<% end %>
+	      </a>
+
+	      <div class="star-review">
+	        <p class="text-center">
+	        	<% average_rating = average_rating(movie.id) %>
+	          <i class="fa fa-star <%='star-fill' if average_rating >= 1 %> "></i>
+	          <i class="fa fa-star <%='star-fill' if average_rating >= 2 %> "></i>
+	          <i class="fa fa-star <%='star-fill' if average_rating >= 3 %> "></i>
+	          <i class="fa fa-star <%='star-fill' if average_rating >= 4 %> "></i>
+	          <i class="fa fa-star <%='star-fill' if average_rating == 5 %> "></i>
+	        </p>
+	      </div>
+	    </div>
+	    <div class="media-body">
+	      <div class="row">
+	        <div class="col-md-5 forMobilecenter">  
+	          <h4 class="media-heading BlueColor"><%= movie.title %></h4>
+	          <p class="marginBottom0  mb0 darkblack">Release Date: <%= movie.release_date %></p>
+	          <p class="marginBottom0  mb0 mt0 darkblack">Genre: <%= genre(movie) %></p>
+	        </div>
+	      </div><!-- row --><br />
+	      
+	      <% Review.where(:movie_id => movie.id).last(2).each do |review| %>
+	      	<div class="row">
+	          <div class="col-sm-3">
+	            <p>
+	            	<% rating = review.rate.to_i %>
+			          <i class="fa fa-star <%='star-fill' if rating >= 1 %> "></i>
+			          <i class="fa fa-star <%='star-fill' if rating >= 2 %> "></i>
+			          <i class="fa fa-star <%='star-fill' if rating >= 3 %> "></i>
+			          <i class="fa fa-star <%='star-fill' if rating >= 4 %> "></i>
+			          <i class="fa fa-star <%='star-fill' if rating == 5 %> "></i>
+	            </p>
+	          </div>
+	          <div class="col-sm-9">
+	            <p><%= review.comment %></p>
+	          </div>
+	      	</div> <!-- row -->
+
+	      <% end %>
+	    
+	    <p class="m10">
+	    	<a href=""><strong><u>View More</u></strong></a> &nbsp;&nbsp;&nbsp;
+	    	<a href='javascript:;' data-engagement-party-id="<%= movie.id %>" data-engagement-party-name="<%= movie.title %>" data-toggle="modal" id="CallCenterLead_popup" data-target="#myModal"><strong><u>Leave a Review</u></strong></a> </p>
+
+	    </div>
+	  </div><!-- Media -->  
+	</div><!-- Box-ShowItem 1-->
+<% end %>
